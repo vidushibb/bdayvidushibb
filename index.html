@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&display=swap');
+
+        :root {
+            --primary: #ff8fa3;
+            --secondary: #c9184a;
+            --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            --text-color: #590d22;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-gradient);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+
+        /* Container for the slides */
+        .container {
+            text-align: center;
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Slide Styling */
+        .slide {
+            display: none; /* Hidden by default */
+            animation: fadeIn 1s ease-in-out;
+            width: 100%;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            margin: 0;
+            color: var(--secondary);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 80%;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(201, 24, 74, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(201, 24, 74, 0.4);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Specific Elements */
+        .envelope {
+            font-size: 5rem;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        .photo-frame {
+            width: 200px;
+            height: 200px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: rotate(-3deg);
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        /* The Cake */
+        .cake-container {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+
+        .cake-body {
+            width: 100%;
+            height: 80px;
+            background: #ff9a9e;
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            bottom: 0;
+            box-shadow: inset 0 -10px rgba(0,0,0,0.1);
+        }
+
+        .icing {
+            width: 100%;
+            height: 20px;
+            background: #fff;
+            position: absolute;
+            top: 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .candle {
+            width: 10px;
+            height: 40px;
+            background: #fff;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+
+        .flame {
+            width: 15px;
+            height: 25px;
+            background: orange;
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 0.5s infinite alternate;
+            box-shadow: 0 0 10px orange;
+        }
+
+        .flame.out {
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
+        }
+
+        /* Confetti Canvas */
+        #confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti"></canvas>
+
+    <div class="container">
+        
+       
+        <div class="slide active" id="slide1">
+            <div class="envelope" onclick="nextSlide(1)">💌</div>
+            <h2>A little something...</h2>
+            <p>Envelope click kr.</p>
+        </div>
+
+        
+        <div class="slide" id="slide2">
+            <h1>Happy Birthday Vidushiiii!</h1>
+            <p>Happy Birthday! 🎂</p>
+    
+        <p>I was going to get you koi bdiya sa gift… but then I remembered you already have me as ur friend. Don’t be लालची. Enjoy your day!</p>
+
+
+            <button class="btn" onclick="nextSlide(2)">Continue</button>
+        </div>
+
+        
+        <div class="slide" id="slide3">
+            <h1>Best things about you</h1>
+            <p style="color: yellow;">
+                1. Free daily entertainment from your dramatic life choices.<br>
+                2. Itna sara chaos keeps life interesting… and slightly concerning.<br>
+                3. Very caring and mature lol. (yellow font btw)
+            </p>
+            <button class="btn" onclick="nextSlide(3)">See a memory</button>
+        </div>
+
+        
+        <div class="slide" id="slide4">
+            <h1>When u looked ur Best</h1>
+            <div class="photo-frame">
+                
+                <img src="https://images.unsplash.com/photo-1516961642265-531546e84af2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Happy Memory">
+            </div>
+            <p>Here's to another year of adventures together.</p>
+            <button class="btn" onclick="nextSlide(4)">Make a wish</button>
+        </div>
+
+       
+        <div class="slide" id="slide5">
+            <h1>Make a Wish!</h1>
+            <p>Tap the candle to blow it out and make your wish come true.</p>
+            
+            <div class="cake-container" onclick="blowCandle()">
+                <div class="candle">
+                    <div class="flame" id="flame"></div>
+                </div>
+                <div class="icing"></div>
+                <div class="cake-body"></div>
+            </div>
+
+            <button class="btn" id="final-btn" style="display:none;" onclick="celebrate()">Let's Party!</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Navigation Logic
+        function nextSlide(currentSlideNum) {
+            // Hide all slides
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            // Show next slide
+            const nextSlideNum = currentSlideNum + 1;
+            const nextSlide = document.getElementById(`slide${nextSlideNum}`);
+            
+            if (nextSlide) {
+                nextSlide.classList.add('active');
+            }
+        }
+
+        // Candle Logic
+        function blowCandle() {
+            const flame = document.getElementById('flame');
+            const btn = document.getElementById('final-btn');
+            
+            flame.classList.add('out');
+            btn.style.display = 'inline-block';
+            
+            // Add a little shake effect to the cake
+            const cake = document.querySelector('.cake-container');
+            cake.style.transform = "scale(0.95)";
+            setTimeout(() => cake.style.transform = "scale(1)", 100);
+        }
+
+        // Celebration Logic
+        function celebrate() {
+            startConfetti();
+            const btn = document.getElementById('final-btn');
+            btn.innerText = "I Love You! ❤️";
+            btn.style.backgroundColor = "#ff4d6d";
+        }
+
+        // Simple Confetti Script
+        function startConfetti() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const pieces = [];
+            const numberOfPieces = 150;
+            const colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f'];
+
+            function update() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    p.y += p.gravity;
+                    p.rotation += p.rotationSpeed;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+
+                    if (p.y > canvas.height) {
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+                requestAnimationFrame(update);
+            }
+
+            for (let i = 0; i < numberOfPieces; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 10 + 5,
+                    gravity: Math.random() * 2 + 1,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: Math.random() * 0.2 - 0.1,
+                    color: colors[Math.floor(Math.random() * colors.length)]
+                });
+            }
+            update();
+        }
+    </script>
+</body>
+</html>
